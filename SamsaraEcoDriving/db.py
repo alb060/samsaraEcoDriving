@@ -2,10 +2,10 @@ import pyodbc
 import pandas as pd
 from fast_to_sql import fast_to_sql as fts
 
-def sql_insert(server_name,db_name,uname,pword,dataframe,table):
+def sql_insert(server_name,db_name,uname,pword,df,table):
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server_name+';DATABASE='+db_name+';Uid='+uname+';Pwd='+pword+';Encrypt=no;Trusted_Connection=no;Connection Timeout=30; autocommit=True')
     cursor = cnxn.cursor()
-    create_statement = fts.fast_to_sql(dataframe, table, cnxn , if_exists="append",  temp=False)
+    create_statement = fts.fast_to_sql(df, table, cnxn , if_exists="append",  temp=False)
     cursor.close()
     cnxn.commit()
     cnxn.close()

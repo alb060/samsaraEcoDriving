@@ -51,3 +51,5 @@ def etl(df):
 
     df['insertDt'] =  datetime.datetime.now()
     #df['insertDiff'] =  (datetime.datetime.now() -startDate).days
+
+    return df

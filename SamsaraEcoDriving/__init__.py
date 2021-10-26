@@ -52,37 +52,39 @@ def main(myblob: func.InputStream):
     startDate = (pd.to_datetime(str(datetime.datetime.strptime(extractor(myblob.name ,0), "%b").month)+'-'+extractor(myblob.name ,1)+'-'+extractor(myblob.name ,2))).date()
     finishDate = (pd.to_datetime(str(datetime.datetime.strptime(extractor(myblob.name ,4), "%b").month)+'-'+extractor(myblob.name,5)+'-'+extractor(myblob.name,6))).date()
 
-    try:
+    #try:
 
     #TRANSFORMATION
     
-        df = pd.read_csv(link_blob_name)
-        df['startDate'] = startDate
-        df['finishDate'] =  finishDate
+    df = pd.read_csv(link_blob_name)
+    df['startDate'] = startDate
+    df['finishDate'] =  finishDate
 
-        df = etl(df=df)
+    df = etl(df=df)
+    print(df.info())
+    print(df.head(1))
+    print('continue')
+    datediff =((datetime.datetime.now()).date() -startDate).days
 
-        datediff =((datetime.datetime.now()).date() -startDate).days
 
+    inputfiles_container.delete_blob(blob_name_pdf,delete_snapshots="include" )
+#INSERT TO SQL
+    if datediff < 5:
+        db.sql_insert(rls_server_name,edw_db_name,af_uname,af_pword,df = df,table = 'SamsaraEcoDriving')
+        print('data inserted succcesfully')
 
+#INSERTO TO SQL IF OLDER THAN 5 DAYS
+    else:
 
-    #INSERT TO SQL
-        if datediff < 5:
-            db.sql_insert(rls_server_name,edw_db_name,af_uname,af_pword,dataframe = df,table = 'SamsaraEcoDriving')
-            print('data inserted succcesfully')
+        db.sql_insert(rls_server_name,edw_db_name,af_uname,af_pword,df = df,table = 'SamsaraEcoDrivingCheck')
+        print('older data inserted succcesfully')
 
-    #INSERTO TO SQL IF OLDER THAN 5 DAYS
-        else:
-
-            db.sql_insert(rls_server_name,edw_db_name,af_uname,af_pword,dataframe = df,table = 'SamsaraEcoDrivingCheck')
-            print('older data inserted succcesfully')
-
-    # DELETE INPUT BLOB
-        inputfiles_container.delete_blob(blob_name_pdf,delete_snapshots="include" )
+# DELETE INPUT BLOB
+    #inputfiles_container.delete_blob(blob_name_pdf,delete_snapshots="include" )
 
         
 
-
+    '''
 
     except Exception as e:
             print('blob name: '+str(myblob.name))
@@ -113,6 +115,6 @@ def main(myblob: func.InputStream):
     #DELETE BLOB
     inputfiles_container.delete_blob(blob_name_pdf,delete_snapshots="include" )
     time.sleep(1)
-
+    '''
 
 
