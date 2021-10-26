@@ -94,7 +94,7 @@ def main(myblob: func.InputStream):
         error_row  = pd.DataFrame(error_row).T
         
         #SEND ERROR LOG TO SQL TABLE
-        db.sql_insert(rls_server_name,edw_db_name,af_uname,af_pword,error_row, "azurefunctionOsrLogs")
+        db.sql_insert(rls_server_name,edw_db_name,af_uname,af_pword,error_row, "azurefunctionLogs")
 
         #SEND not converted file to INPUTERROR CONTAIER
         
@@ -107,7 +107,7 @@ def main(myblob: func.InputStream):
 
     #DELETE BLOB
         inputfiles_container.delete_blob(blob_name_pdf,delete_snapshots="include" )
-        time.sleep(1)
+    time.sleep(1)
         
 
 
