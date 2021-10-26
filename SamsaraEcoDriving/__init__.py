@@ -6,6 +6,7 @@ import pandas as pd
 import datetime,time
 import traceback
 from pandas.core.frame import DataFrame
+import sys
 
 try:
     from SamsaraEcoDriving.etl import extractor,calc,etl
@@ -80,15 +81,18 @@ def main(myblob: func.InputStream):
         inputfiles_container.delete_blob(blob_name_pdf,delete_snapshots="include" )
 
     except Exception as e:
-
-        print('blob name: '+str(myblob.name))
-        print(e)
-        # GET ERROR MESSAGE
-
         print('error delete')
+        print('blob name: '+str(myblob.name))
+        
         insertDt = datetime.datetime.now()
-        trackback_eoror_message = "blob name: "+str(myblob.name)+'error message: '+str(traceback.format_exc())
-        functionName = 'samsaraEcoDrivingReoirt'
+        exception_type, exception_object, exception_traceback = sys.exc_info()
+        filename = exception_traceback.tb_frame.f_code.co_filename
+        line_number = exception_traceback.tb_lineno
+        print("Exception type: ", exception_type)
+        print("File name: ", filename)
+        print("Line number: ", line_number)
+        trackback_eoror_message = "blob name: "+str(myblob.name)+' error message: '+str("Exception type: ", exception_type, " File name: ", filename,"Line number: ", line_number)
+        functionName = 'samsaraEcoDrivingReport'
         table = 'samsaraEcoDriving'
         error_row = [functionName,table,trackback_eoror_message,insertDt]
         error_row  = pd.DataFrame(error_row).T
