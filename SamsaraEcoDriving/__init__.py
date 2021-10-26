@@ -26,8 +26,8 @@ def main(myblob: func.InputStream):
 
 
     
-    edwstoragefiles_connectionString   = os.environ['inputfiles_connectionString']
-
+    #edwstoragefiles_connectionString   = os.environ['inputfiles_connectionString']
+    edwstoragefiles_connectionString   = os.environ['samsaraecodriving_STORAGE']
 
     inputfiles_container_name = 'samsaraecodriving'
     inputfiles_container = ContainerClient.from_connection_string(conn_str=edwstoragefiles_connectionString , container_name="samsaraecodriving")
