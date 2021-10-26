@@ -32,7 +32,7 @@ def main(myblob: func.InputStream):
     inputfiles_container = ContainerClient.from_connection_string(conn_str=edwstoragefiles_connectionString , container_name="samsaraecodriving")
 
     
-
+    #ss
     link_service = 'https://edwstoragefiles.blob.core.windows.net/' 
     link_container = 'samsaraecodriving/'
 
