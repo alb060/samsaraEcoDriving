@@ -26,8 +26,8 @@ def main(myblob: func.InputStream):
 
 
     
-    #edwstoragefiles_connectionString   = os.environ['inputfiles_connectionString']
-    edwstoragefiles_connectionString   =  'DefaultEndpointsProtocol=https;AccountName=edwstoragefiles;AccountKey=kXlGjFmH3Fbj1/JeG9ucFRCrulW4ZKX4pN3do8VwC6oTup30dYKLSKMxk0x4aAkDcIw3yf820Jp9Cu7K9+SVcw==;EndpointSuffix=core.windows.net'
+    edwstoragefiles_connectionString   = os.environ['inputfiles_connectionString']
+    #edwstoragefiles_connectionString   =  'DefaultEndpointsProtocol=https;AccountName=edwstoragefiles;AccountKey=kXlGjFmH3Fbj1/JeG9ucFRCrulW4ZKX4pN3do8VwC6oTup30dYKLSKMxk0x4aAkDcIw3yf820Jp9Cu7K9+SVcw==;EndpointSuffix=core.windows.net'
 
     inputfiles_container_name = 'samsaraecodriving'
     inputfiles_container = ContainerClient.from_connection_string(conn_str=edwstoragefiles_connectionString , container_name="samsaraecodriving")
